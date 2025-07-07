@@ -1,0 +1,17 @@
+name = "cf-r2-webdav"
+main = "src/index.ts"
+compatibility_date = "2025-07-07"
+
+[vars]
+USERNAME = "realoiyo"
+PASSWORD = "oiyooiyoX2"
+# 这一行并不多余，不要注释掉！！！！
+BUCKET_NAME = "webdav"
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "webdav"
+
+# wrangler.toml (wrangler v3.88.0^)
+[observability.logs]
+enabled = true

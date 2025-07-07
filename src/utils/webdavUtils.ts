@@ -58,7 +58,10 @@ ${responses}
 }
 
 function generatePropResponse(bucketName: string, basePath: string, prop: WebDAVProps): string {
-  const resourcePath = `/${bucketName}/${basePath}${prop.displayname ? '/' + prop.displayname : ''}`;
+  // 使用数组和 filter/join 的方法来健壮地拼接路径
+  const pathParts = [bucketName, basePath, prop.displayname];
+  const resourcePath = '/' + pathParts.filter(part => part).join('/');
+
   return `  <D:response>
     <D:href>${resourcePath}</D:href>
     <D:propstat>
@@ -68,7 +71,7 @@ function generatePropResponse(bucketName: string, basePath: string, prop: WebDAV
         <D:getcontenttype>${prop.getcontenttype || ''}</D:getcontenttype>
         <D:getetag>${prop.getetag || ''}</D:getetag>
         <D:getlastmodified>${prop.getlastmodified}</D:getlastmodified>
-        <D:resourcetype>${prop.resourcetype ? '<D:collection/>' : ''}</D:resourcetype>
+        <D:resourcetype>${prop.resourcetype === 'collection' ? '<D:collection/>' : ''}</D:resourcetype>
       </D:prop>
       <D:status>HTTP/1.1 200 OK</D:status>
     </D:propstat>
